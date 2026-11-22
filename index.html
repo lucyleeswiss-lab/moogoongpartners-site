@@ -1,0 +1,1408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>moogoong — Connecting Korea &amp; the World</title>
+<meta name="description" content="moogoong is a Korea-based consulting and business platform helping global companies enter and grow in Korea, and Korean companies expand into markets abroad." />
+<meta name="theme-color" content="#1F2022" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Inter+Tight:wght@500;600;700&display=swap" rel="stylesheet">
+<script>
+  /* marks the document before first paint so reveal targets never flash in;
+     removed again if the motion layer cannot start (see the end of the page) */
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.documentElement.classList.add('motion-ready');
+  }
+</script>
+<style>
+  /* ============================================================ tokens */
+  :root{
+    --ink:#1F2022;            /* warm charcoal — primary dark */
+    --ink-2:#232325;
+    --ink-3:#2C2D30;
+    --body:#4B4C50;
+    --muted:#71737A;
+    --line:#E5E7EB;
+    --line-strong:#D8DADE;
+    --soft:#F7F7F8;
+    --white:#FFFFFF;
+    --accent:#C9332B;         /* warm signal crimson */
+    --accent-hover:#A82821;
+    --accent-soft:#FBEFED;
+    --max:1200px;
+    --hdr:74px;
+    --r:6px;
+    --ease:cubic-bezier(.22,.61,.36,1);
+    --shadow-1:0 1px 2px rgba(31,32,34,.05);
+    --shadow-2:0 18px 44px rgba(31,32,34,.10);
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;scroll-padding-top:calc(var(--hdr) + 20px)}
+  body{
+    margin:0;background:var(--white);color:var(--body);
+    font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    font-size:16px;line-height:1.66;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+    overflow-x:hidden;
+  }
+  body.nav-open{overflow:hidden}
+  img,svg{display:block}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3,h4{margin:0;color:var(--ink);line-height:1.16;letter-spacing:-.022em;font-weight:600;
+    font-family:"Inter Tight","Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+  p{margin:0}
+  ul,ol{margin:0;padding:0;list-style:none}
+  dl,dd{margin:0}
+  button{font:inherit}
+  ::selection{background:var(--accent);color:#fff}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+  .wrap{width:100%;max-width:var(--max);margin:0 auto;padding:0 40px}
+  .sprite{position:absolute;width:0;height:0;overflow:hidden}
+  .ico{width:22px;height:22px;flex:0 0 auto;fill:none;stroke:currentColor;stroke-width:1.6;
+    stroke-linecap:round;stroke-linejoin:round}
+  .ico-sm{width:18px;height:18px}
+  .skip{position:absolute;left:-9999px;top:0;z-index:200;background:var(--ink);color:#fff;padding:12px 18px}
+  .skip:focus{left:12px;top:12px}
+
+  /* ============================================================ header */
+  .site-header{
+    position:sticky;top:0;z-index:90;height:var(--hdr);
+    background:transparent;border-bottom:1px solid rgba(255,255,255,.10);
+    transition:background .35s var(--ease),border-color .35s var(--ease),box-shadow .35s var(--ease);
+  }
+  .site-header.is-solid{
+    background:rgba(255,255,255,.94);border-bottom-color:var(--line);
+    backdrop-filter:saturate(180%) blur(14px);-webkit-backdrop-filter:saturate(180%) blur(14px);
+    box-shadow:0 1px 0 rgba(31,32,34,.03),0 10px 30px rgba(31,32,34,.06);
+  }
+  .header-inner{display:flex;align-items:center;gap:26px;height:100%;max-width:var(--max);
+    margin:0 auto;padding:0 40px}
+  .brand{display:flex;align-items:center;flex:0 0 auto;padding:4px 0}
+  .brand svg{width:150px;height:auto}
+  .brand .logo-dark{display:none}
+  .site-header.is-solid .brand .logo-light{display:none}
+  .site-header.is-solid .brand .logo-dark{display:block}
+
+  .nav{display:flex;align-items:center;gap:26px;margin-left:auto}
+  .nav a{position:relative;font-size:13.5px;font-weight:500;color:rgba(255,255,255,.76);
+    white-space:nowrap;padding:8px 0;transition:color .2s var(--ease)}
+  .nav a::after{content:"";position:absolute;left:0;right:0;bottom:2px;height:1.5px;background:var(--accent);
+    transform:scaleX(0);transform-origin:left;transition:transform .3s var(--ease)}
+  .nav a:hover{color:#fff}
+  .nav a:hover::after{transform:scaleX(1)}
+  .site-header.is-solid .nav a{color:var(--body)}
+  .site-header.is-solid .nav a:hover{color:var(--ink)}
+
+  .header-tools{display:flex;align-items:center;gap:12px;flex:0 0 auto}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:9px;
+    font:inherit;font-size:14px;font-weight:500;line-height:1;cursor:pointer;
+    padding:14px 22px;border-radius:var(--r);border:1px solid transparent;
+    transition:background .22s var(--ease),color .22s var(--ease),border-color .22s var(--ease),transform .22s var(--ease);
+    white-space:nowrap;letter-spacing:.005em;
+  }
+  .btn .ico{width:17px;height:17px;stroke-width:1.9}
+  .btn-primary{background:var(--accent);color:#fff}
+  .btn-primary:hover{background:var(--accent-hover);transform:translateY(-1px)}
+  .btn-dark{background:var(--ink);color:#fff}
+  .btn-dark:hover{background:#000;transform:translateY(-1px)}
+  .btn-ghost{background:transparent;color:#F2F0ED;border-color:rgba(255,255,255,.24)}
+  .btn-ghost:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.42)}
+  .btn-sm{padding:12px 18px;font-size:13px}
+  .nav-toggle{
+    display:none;width:44px;height:44px;align-items:center;justify-content:center;
+    background:transparent;border:1px solid rgba(255,255,255,.24);border-radius:var(--r);
+    cursor:pointer;color:#fff;transition:.22s var(--ease);
+  }
+  .site-header.is-solid .nav-toggle,.site-header.is-open .nav-toggle{
+    color:var(--ink);border-color:var(--line)
+  }
+  .nav-toggle .ico{stroke-width:2;width:20px;height:20px}
+
+  .mobile-nav{
+    display:none;position:fixed;inset:var(--hdr) 0 0 0;z-index:85;background:#fff;
+    padding:14px 24px 40px;overflow-y:auto;
+  }
+  .mobile-nav.open{display:block}
+  .mobile-nav a:not(.btn){display:flex;align-items:center;justify-content:space-between;
+    padding:16px 2px;font-size:16px;font-weight:500;color:var(--ink);border-bottom:1px solid var(--line)}
+  .mobile-nav a:not(.btn)::after{content:"→";color:var(--accent);font-size:15px}
+  .mobile-nav .btn{width:100%;margin-top:24px}
+  .site-header.is-open{background:#fff;border-bottom-color:var(--line)}
+  .site-header.is-open .brand .logo-light{display:none}
+  .site-header.is-open .brand .logo-dark{display:block}
+
+  /* scroll progress */
+  .progress{position:fixed;top:0;left:0;right:0;height:2px;z-index:95;pointer-events:none}
+  .progress span{display:block;height:100%;background:var(--accent);transform:scaleX(0);
+    transform-origin:left center}
+
+  /* ============================================================ hero */
+  .hero{
+    position:relative;margin-top:calc(-1 * var(--hdr));
+    padding:calc(var(--hdr) + 96px) 0 0;overflow:hidden;
+    background:
+      radial-gradient(1100px 620px at 88% -18%, rgba(201,51,43,.30), transparent 62%),
+      radial-gradient(760px 520px at 4% 108%, rgba(201,51,43,.10), transparent 60%),
+      linear-gradient(168deg,#26282B 0%,#1F2022 46%,#1A1B1D 100%);
+    color:#C6C4C0;
+  }
+  .hero::after{
+    content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+    background-image:
+      linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+    background-size:72px 72px;
+    -webkit-mask-image:radial-gradient(circle at 62% 34%,#000 10%,transparent 78%);
+    mask-image:radial-gradient(circle at 62% 34%,#000 10%,transparent 78%);
+  }
+  .hero-inner{
+    position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1.06fr) minmax(0,.94fr);
+    gap:64px;align-items:center;max-width:var(--max);margin:0 auto;padding:0 40px 84px;
+  }
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:11px;font-size:11px;font-weight:600;letter-spacing:.19em;
+    text-transform:uppercase;color:var(--accent);margin-bottom:20px;
+  }
+  .eyebrow::before{content:"";width:26px;height:1.5px;background:currentColor;border-radius:2px}
+  .hero .eyebrow{color:#E8837B}
+  .hero h1{font-size:clamp(38px,4.6vw,64px);line-height:1.06;letter-spacing:-.038em;color:#fff;font-weight:600}
+  .hero h1 .line{display:block;overflow:hidden;padding-bottom:.12em;margin-bottom:-.12em}
+  .hero h1 .line > span{display:block}
+  .hero .hero-em{margin-top:20px;font-size:clamp(17px,1.5vw,20px);color:#EDEAE6;font-weight:400;
+    letter-spacing:-.01em;max-width:30ch}
+  .hero-lead{margin-top:16px;font-size:16.5px;line-height:1.72;color:#A9A6A2;max-width:54ch}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
+  .hero-points{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin-top:46px;
+    padding-top:0;border-top:1px solid rgba(255,255,255,.13)}
+  .hero-points li{position:relative;padding:20px 18px 0 0;font-size:12.5px;color:#9C9995;
+    font-weight:500;line-height:1.45;letter-spacing:.01em}
+  .hero-points li + li{padding-left:18px;border-left:1px solid rgba(255,255,255,.10)}
+  .hero-points .n{display:block;font-size:10px;letter-spacing:.18em;color:var(--accent);margin-bottom:6px;
+    font-weight:600}
+
+  .hero-visual{position:relative;display:flex;justify-content:center}
+  .plate{
+    position:relative;width:100%;max-width:430px;padding:52px 40px 40px;border-radius:8px;
+    background:linear-gradient(155deg,rgba(255,255,255,.062),rgba(255,255,255,.014));
+    border:1px solid rgba(255,255,255,.13);
+    box-shadow:0 40px 90px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.06);
+    display:flex;flex-direction:column;align-items:center;gap:26px;
+  }
+  .plate::before{content:"";position:absolute;inset:-1px;border-radius:8px;pointer-events:none;
+    background:radial-gradient(420px 160px at 50% 0%,rgba(201,51,43,.22),transparent 70%)}
+  .plate .lockup{position:relative;width:100%;height:auto}
+  .plate-cap{position:relative;display:flex;flex-direction:column;align-items:center;gap:9px}
+  .plate-cap .rule{width:34px;height:1px;background:rgba(255,255,255,.24)}
+  .plate-cap span{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:#8B8884;font-weight:500}
+  .plate-meta{position:relative;display:flex;justify-content:space-between;width:100%;
+    padding-top:18px;border-top:1px solid rgba(255,255,255,.09);
+    font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#77746F}
+  .hero-scroll{position:relative;z-index:2;display:flex;justify-content:center;padding:0 0 26px}
+  .hero-scroll span{display:inline-flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.26em;
+    text-transform:uppercase;color:#6F6C68}
+  .hero-scroll .bar{width:1px;height:26px;background:linear-gradient(180deg,rgba(255,255,255,.45),transparent)}
+
+  /* ============================================================ section shell */
+  .section{position:relative;padding:112px 0}
+  .section-soft{background:var(--soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .section-head{max-width:780px;margin-bottom:52px}
+  .section-head.wide{max-width:920px}
+  .section-head h2{font-size:clamp(29px,3.3vw,42px);letter-spacing:-.032em;text-wrap:balance}
+  .section-head p{margin-top:18px;font-size:16.5px;line-height:1.74;color:var(--body);max-width:66ch}
+  .section-head.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.62fr);gap:56px;
+    align-items:end;max-width:none}
+  h3{font-size:17px;letter-spacing:-.015em}
+
+  /* ============================================================ brand */
+  .brand-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+  .brand-card{
+    position:relative;background:#fff;border:1px solid var(--line);border-radius:var(--r);
+    padding:0 0 30px;box-shadow:var(--shadow-1);overflow:hidden;
+    transition:transform .4s var(--ease),box-shadow .4s var(--ease),border-color .4s var(--ease);
+  }
+  .brand-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-2);border-color:var(--line-strong)}
+  .brand-card .tile{
+    display:flex;align-items:center;justify-content:center;height:150px;margin-bottom:26px;
+    background:var(--soft);border-bottom:1px solid var(--line);
+  }
+  .brand-card .tile svg{width:auto;max-width:70%;max-height:70%}
+  .brand-card .tile--mark svg{height:64px}
+  .brand-card .tile--arch svg{height:26px}
+  .brand-card .tile--word svg{height:34px}
+  .brand-card .body{padding:0 28px}
+  .brand-card h3{font-size:18px;margin-bottom:10px}
+  .brand-card p{font-size:14.5px;line-height:1.72}
+  .brand-note{
+    margin-top:26px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;align-items:start;
+    background:#fff;border:1px solid var(--line);border-left:2px solid var(--accent);
+    border-radius:var(--r);padding:24px 28px;
+  }
+  .brand-note .ico{color:var(--accent);margin-top:3px}
+  .brand-note p{font-size:14.5px;line-height:1.72;color:var(--body)}
+  .brand-note strong{color:var(--ink);font-weight:600}
+
+  /* ============================================================ about */
+  .about-grid{display:grid;grid-template-columns:minmax(0,.94fr) minmax(0,1.06fr);gap:64px;align-items:start}
+  .about-copy p{font-size:16.5px;line-height:1.78}
+  .about-copy p + p{margin-top:18px}
+  .about-note{margin-top:30px;padding:24px 26px;border-radius:var(--r);background:var(--white);
+    border:1px solid var(--line);border-top:2px solid var(--accent)}
+  .about-note strong{display:block;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:9px;font-weight:600}
+  .about-note span{font-size:14.5px;line-height:1.72;color:var(--body)}
+  .sol-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;
+    padding-bottom:16px;border-bottom:1px solid var(--line-strong);margin-bottom:4px}
+  .sol-head h3{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);font-weight:600}
+  .sol-head span{font-size:11.5px;color:var(--muted);letter-spacing:.06em}
+  .solutions{counter-reset:sol}
+  .solutions li{counter-increment:sol;display:grid;grid-template-columns:40px minmax(0,1fr);gap:16px;
+    padding:17px 0;border-bottom:1px solid var(--line);transition:background .25s var(--ease)}
+  .solutions li:last-child{border-bottom:0}
+  .solutions li::before{
+    content:counter(sol,decimal-leading-zero);font-family:"Inter Tight",Inter,sans-serif;
+    font-size:11.5px;font-weight:600;letter-spacing:.08em;color:var(--accent);
+    display:flex;align-items:center;justify-content:center;height:24px;border-right:1px solid var(--line);
+  }
+  .solutions h4{font-family:"Inter",sans-serif;font-size:15px;margin-bottom:3px;letter-spacing:-.01em;
+    font-weight:600}
+  .solutions p{font-size:13.5px;line-height:1.6;color:var(--muted)}
+
+  /* ============================================================ cards */
+  .grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+  .grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+  .card{
+    position:relative;background:#fff;border:1px solid var(--line);border-radius:var(--r);
+    padding:30px 28px 32px;box-shadow:var(--shadow-1);overflow:hidden;
+    transition:transform .4s var(--ease),box-shadow .4s var(--ease),border-color .4s var(--ease);
+  }
+  .card::after{content:"";position:absolute;left:0;top:0;height:2px;width:0;background:var(--accent);
+    transition:width .45s var(--ease)}
+  .card:hover{transform:translateY(-4px);box-shadow:var(--shadow-2);border-color:var(--line-strong)}
+  .card:hover::after{width:100%}
+  .svc-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:22px}
+  .svc-num{font-family:"Inter Tight",Inter,sans-serif;font-size:11.5px;font-weight:600;letter-spacing:.16em;
+    color:var(--muted)}
+  .svc-ico{width:40px;height:40px;border-radius:4px;background:var(--soft);color:var(--ink);
+    display:flex;align-items:center;justify-content:center;border:1px solid var(--line);
+    transition:background .35s var(--ease),color .35s var(--ease),border-color .35s var(--ease)}
+  .svc-ico .ico{width:19px;height:19px}
+  .card:hover .svc-ico{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .card h3{margin-bottom:10px;font-size:16.5px;line-height:1.36}
+  .card p{font-size:14px;line-height:1.68}
+
+  /* ============================================================ industries */
+  .ind-featured{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px;margin-bottom:46px}
+  .ind-card{
+    position:relative;background:#fff;border:1px solid var(--line);border-radius:var(--r);
+    padding:24px 20px 26px;box-shadow:var(--shadow-1);overflow:hidden;
+    transition:transform .4s var(--ease),box-shadow .4s var(--ease),border-color .4s var(--ease);
+  }
+  .ind-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-2);border-color:var(--line-strong)}
+  .ind-card .ind-ico{width:36px;height:36px;border-radius:4px;background:var(--ink);color:#fff;
+    display:flex;align-items:center;justify-content:center;margin-bottom:16px;
+    transition:background .35s var(--ease)}
+  .ind-card:hover .ind-ico{background:var(--accent)}
+  .ind-card .ind-ico .ico{width:18px;height:18px}
+  .ind-card h3{font-size:14.5px;margin-bottom:7px;line-height:1.3}
+  .ind-card p{font-size:12.8px;line-height:1.6;color:var(--muted)}
+  .chips-label{display:flex;align-items:center;gap:14px;font-size:10.5px;letter-spacing:.18em;
+    text-transform:uppercase;font-weight:600;color:var(--muted);margin-bottom:18px}
+  .chips-label::after{content:"";flex:1;height:1px;background:var(--line)}
+  .chips{display:flex;flex-wrap:wrap;gap:9px}
+  .chip{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);
+    border-radius:3px;padding:9px 14px;font-size:13px;font-weight:500;color:#3C3D41;
+    transition:border-color .25s var(--ease),color .25s var(--ease),transform .25s var(--ease)}
+  .chip .ico{width:15px;height:15px;color:var(--muted);stroke-width:1.7;transition:color .25s}
+  .chip:hover{border-color:var(--accent);color:var(--ink);transform:translateY(-1px)}
+  .chip:hover .ico{color:var(--accent)}
+  .chip.strong{background:var(--ink);border-color:var(--ink);color:#fff}
+  .chip.strong .ico{color:#fff;opacity:.7}
+
+  /* ============================================================ features */
+  .feature-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+  .feature{
+    position:relative;background:#fff;border:1px solid var(--line);border-radius:var(--r);
+    padding:30px 28px;box-shadow:var(--shadow-1);
+    transition:transform .4s var(--ease),box-shadow .4s var(--ease),border-color .4s var(--ease);
+  }
+  .feature:hover{transform:translateY(-4px);box-shadow:var(--shadow-2);border-color:var(--line-strong)}
+  .feature .feat-ico{width:42px;height:42px;border-radius:4px;background:var(--soft);border:1px solid var(--line);
+    color:var(--ink);display:flex;align-items:center;justify-content:center;margin-bottom:20px;
+    transition:background .35s var(--ease),color .35s var(--ease)}
+  .feature:hover .feat-ico{background:var(--accent-soft);color:var(--accent);border-color:#F0D7D4}
+  .feature h3{font-size:16.5px;margin-bottom:10px}
+  .feature p{font-size:14px;line-height:1.7}
+  .note-line{display:flex;gap:12px;align-items:flex-start;margin-top:28px;padding:18px 22px;
+    background:#fff;border:1px solid var(--line);border-left:2px solid var(--accent);border-radius:var(--r);
+    font-size:13.5px;color:var(--muted)}
+  .note-line .ico{color:var(--accent);margin-top:2px}
+
+  /* ============================================================ process */
+  .process-wrap{margin-top:56px}
+  .process-label{display:flex;align-items:center;gap:14px;font-size:10.5px;letter-spacing:.18em;
+    text-transform:uppercase;font-weight:600;color:var(--muted);margin-bottom:22px}
+  .process-label::after{content:"";flex:1;height:1px;background:var(--line)}
+  .process{position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+    border-top:1px solid var(--line-strong)}
+  .process li{position:relative;padding:26px 28px 0 0}
+  .process li::before{content:"";position:absolute;left:0;top:-4.5px;width:9px;height:9px;
+    border-radius:50%;background:var(--white);border:2px solid var(--accent)}
+  .process li + li{padding-left:28px}
+  .process .step{font-family:"Inter Tight",Inter,sans-serif;font-size:10.5px;font-weight:600;
+    letter-spacing:.18em;color:var(--accent);margin-bottom:10px}
+  .process h4{font-size:15.5px;margin-bottom:6px;letter-spacing:-.01em;font-family:"Inter",sans-serif;
+    font-weight:600}
+  .process p{font-size:13.5px;color:var(--muted);line-height:1.6}
+
+  /* ============================================================ support bullets */
+  .support-bullets{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:30px}
+  .support-bullets li{display:flex;gap:11px;font-size:13.8px;line-height:1.6;color:#3C3D41;
+    background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px 18px}
+  .support-bullets .ico{color:var(--accent);flex:0 0 auto;margin-top:2px;stroke-width:2}
+
+  /* ============================================================ cta band */
+  .cta-band{position:relative;background:var(--ink);padding:76px 0;overflow:hidden}
+  .cta-band::before{content:"";position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(760px 320px at 84% 50%,rgba(201,51,43,.24),transparent 66%)}
+  .cta-band::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.45;
+    background-image:linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);
+    background-size:72px 100%}
+  .cta-band-inner{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;
+    gap:44px;flex-wrap:wrap}
+  .cta-band .eyebrow{color:#E8837B;margin-bottom:16px}
+  .cta-band h2{color:#fff;font-size:clamp(24px,2.6vw,34px);max-width:26ch;letter-spacing:-.03em}
+  .cta-band .btn{flex:0 0 auto}
+
+  /* ============================================================ contact */
+  .contact-grid{display:grid;grid-template-columns:minmax(0,1.42fr) minmax(0,.78fr);gap:28px;align-items:start}
+  .form-card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:36px;
+    box-shadow:var(--shadow-1)}
+  .form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+  .field{display:flex;flex-direction:column;gap:8px}
+  .field.full{grid-column:1/-1}
+  .field label{font-size:12px;font-weight:600;color:#3C3D41;letter-spacing:.02em}
+  .field label .req{color:var(--accent)}
+  .field input,.field select,.field textarea{
+    font:inherit;font-size:14.5px;color:var(--ink);background:#fff;
+    border:1px solid var(--line-strong);border-radius:4px;padding:13px 14px;width:100%;
+    transition:border-color .2s var(--ease),box-shadow .2s var(--ease);
+  }
+  .field select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' fill='none' stroke='%2371737A' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 14px center;padding-right:38px}
+  .field textarea{resize:vertical;min-height:132px;line-height:1.6}
+  .field input::placeholder,.field textarea::placeholder{color:#9A9CA1}
+  .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--accent);
+    box-shadow:0 0 0 3px rgba(201,51,43,.12)}
+  .consent{display:flex;gap:11px;align-items:flex-start;font-size:12.5px;line-height:1.6;color:var(--muted);
+    margin-top:18px}
+  .consent input{margin-top:2px;width:16px;height:16px;accent-color:var(--accent);flex:0 0 auto}
+  .form-foot{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:24px}
+  .form-note{font-size:12px;color:#8E9096}
+  .form-msg{font-size:13px;color:var(--accent);font-weight:500;margin-top:14px;min-height:0}
+
+  .contact-aside{display:flex;flex-direction:column;gap:18px}
+  .info-card{background:var(--ink);color:#B7B5B1;border-radius:var(--r);padding:32px 30px}
+  .info-card h3{color:#fff;font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+    margin-bottom:22px;font-weight:600}
+  .info-row{display:flex;gap:13px;padding:14px 0;border-top:1px solid rgba(255,255,255,.10);font-size:13.5px}
+  .info-row:first-of-type{border-top:0;padding-top:0}
+  .info-row .ico{color:var(--accent);margin-top:2px;width:17px;height:17px;stroke-width:1.7}
+  .info-row dt{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#7F7C78;
+    font-weight:600;margin-bottom:4px}
+  .info-row dd{color:#EFEDE9;font-weight:500;word-break:break-word}
+  .info-row dd .tbd{color:#E8A55B;font-weight:500}
+  .aside-next{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:28px}
+  .aside-next h3{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:18px;
+    font-weight:600}
+  .aside-next ol{display:flex;flex-direction:column;gap:14px;counter-reset:nx}
+  .aside-next li{counter-increment:nx;display:grid;grid-template-columns:24px minmax(0,1fr);gap:12px;
+    font-size:13px;line-height:1.58;color:var(--body)}
+  .aside-next li::before{content:counter(nx);width:24px;height:24px;border-radius:50%;
+    border:1px solid var(--line-strong);color:var(--accent);font-size:10.5px;font-weight:600;
+    display:flex;align-items:center;justify-content:center;margin-top:1px}
+  .aside-next strong{color:var(--ink);font-weight:600}
+  .aside-note{font-size:12.5px;color:var(--muted);line-height:1.68;padding:0 4px}
+
+  .faq{margin-top:64px}
+  .faq-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:18px}
+  .faq-head h3{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:600}
+  details.faq-item{background:#fff;border:1px solid var(--line);border-radius:var(--r);margin-bottom:10px;
+    overflow:hidden;transition:border-color .25s var(--ease)}
+  details.faq-item[open]{border-color:var(--line-strong)}
+  details.faq-item summary{cursor:pointer;list-style:none;display:flex;align-items:center;
+    justify-content:space-between;gap:18px;padding:19px 24px;font-size:14.8px;font-weight:500;
+    color:var(--ink);font-family:"Inter",sans-serif}
+  details.faq-item summary::-webkit-details-marker{display:none}
+  details.faq-item summary::after{content:"+";font-size:19px;font-weight:400;color:var(--accent);
+    line-height:1;transition:transform .25s var(--ease)}
+  details.faq-item[open] summary::after{content:"–"}
+  details.faq-item .faq-body{padding:0 24px 22px;font-size:14px;line-height:1.74;color:var(--body);
+    max-width:88ch}
+
+  /* ============================================================ footer */
+  .site-footer{background:var(--ink);color:#8D8A86;padding:64px 0 38px}
+  .footer-inner{max-width:var(--max);margin:0 auto;padding:0 40px}
+  .footer-top{display:flex;justify-content:space-between;align-items:flex-start;gap:40px;flex-wrap:wrap;
+    padding-bottom:34px;border-bottom:1px solid rgba(255,255,255,.10)}
+  .footer-brand svg{width:172px;height:auto}
+  .footer-tag{font-size:13px;color:#8D8A86;margin-top:18px;max-width:340px;line-height:1.65}
+  .footer-nav{display:flex;gap:56px;flex-wrap:wrap}
+  .footer-col h4{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#6F6C68;
+    margin-bottom:14px;font-weight:600}
+  .footer-col a{display:block;font-size:13.5px;color:#C4C1BD;padding:5px 0;transition:color .2s}
+  .footer-col a:hover{color:#fff}
+  .footer-bottom{margin-top:26px;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;
+    font-size:12px;color:#6F6C68;letter-spacing:.02em}
+  .footer-bottom a{color:#8D8A86}
+  .footer-bottom a:hover{color:#fff}
+
+  /* ============================================================ motion states */
+  .motion-ready [data-reveal],
+  .motion-ready [data-stagger] > *,
+  .motion-ready [data-hero]{
+    opacity:0;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .motion-ready [data-reveal],.motion-ready [data-stagger] > *,.motion-ready [data-hero]{opacity:1}
+  }
+
+  /* ============================================================ responsive */
+  @media (max-width:1180px){
+    .nav{display:none}
+    .nav-toggle{display:flex}
+    .header-tools{margin-left:auto}
+    .header-tools .btn{display:none}
+    .hero-inner{grid-template-columns:minmax(0,1fr);gap:56px;padding-bottom:72px}
+    .hero-visual{order:2}
+    .plate{max-width:400px}
+    .ind-featured{grid-template-columns:repeat(3,minmax(0,1fr))}
+  }
+  @media (max-width:980px){
+    .wrap,.header-inner{padding:0 28px}
+    .hero-inner{padding:0 28px 64px}
+    .section{padding:88px 0}
+    .about-grid{grid-template-columns:1fr;gap:40px}
+    .grid-3,.feature-list{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .brand-grid{grid-template-columns:1fr}
+    .contact-grid{grid-template-columns:1fr}
+    .process{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:34px}
+    .process li{padding:26px 24px 0 0}
+    .process li + li{padding-left:0}
+    .process li:nth-child(even)::before{left:0}
+    .hero-points{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .hero-points li{padding-top:16px}
+    .hero-points li:nth-child(odd){padding-left:0;border-left:0}
+    .hero-points li:nth-child(n+3){border-top:1px solid rgba(255,255,255,.10)}
+    .section-head.split{grid-template-columns:1fr;gap:20px;align-items:start}
+  }
+  @media (max-width:760px){
+    :root{--hdr:66px}
+    .wrap,.header-inner,.footer-inner{padding:0 20px}
+    .hero{padding-top:calc(var(--hdr) + 54px)}
+    .hero-inner{padding:0 20px 56px}
+    .brand svg{width:126px}
+    .section{padding:72px 0}
+    .section-head{margin-bottom:38px}
+    .grid-3,.grid-2,.feature-list,.support-bullets{grid-template-columns:1fr}
+    .ind-featured{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .form-grid{grid-template-columns:1fr}
+    .form-card{padding:26px 22px}
+    .card,.feature{padding:26px 24px}
+    .brand-card .body{padding:0 24px}
+    .hero h1{font-size:clamp(34px,9vw,44px)}
+    .hero .hero-em{font-size:16.5px}
+    .hero-lead{font-size:15.5px}
+    .hero-actions .btn{flex:1 1 auto;width:100%}
+    .plate{padding:38px 26px 30px}
+    .cta-band{padding:56px 0}
+    .footer-nav{gap:32px}
+  }
+  @media (max-width:460px){
+    .ind-featured{grid-template-columns:1fr}
+    .process{grid-template-columns:1fr;row-gap:26px}
+    .hero-points{grid-template-columns:1fr}
+    .hero-points li{border-left:0 !important;padding-left:0 !important}
+    .hero-points li + li{border-top:1px solid rgba(255,255,255,.10)}
+    .brand-note{grid-template-columns:1fr;gap:10px}
+  }
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- icon sprite -->
+<svg class="sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.4"/><path d="M16 16l4 4"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v5.6c0 4.2-2.9 7.5-7 9.1-4.1-1.6-7-4.9-7-9.1V6l7-3z"/><path d="M9 12l2.2 2.2L15.5 10"/></symbol>
+  <symbol id="i-headset" viewBox="0 0 24 24"><path d="M4 14v-2a8 8 0 0116 0v2"/><rect x="3" y="13" width="4" height="6" rx="1.6"/><rect x="17" y="13" width="4" height="6" rx="1.6"/><path d="M19 19v.7a2.2 2.2 0 01-2.2 2.2H13"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8.5" r="3.2"/><path d="M3 20c0-3.3 2.7-5.6 6-5.6s6 2.3 6 5.6"/><path d="M16 5.5a3 3 0 010 6"/><path d="M17.5 14.6c2 .7 3.5 2.5 3.5 5"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M20 15a2.5 2.5 0 01-2.5 2.5H9L4 21v-4.5A2.5 2.5 0 014 14V6.5A2.5 2.5 0 016.5 4h11A2.5 2.5 0 0120 6.5V15z"/><path d="M8 9h8M8 12.5h5"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.6"/><path d="M3.4 12h17.2"/><path d="M12 3.4c2.4 2.3 3.7 5.3 3.7 8.6S14.4 18.3 12 20.6C9.6 18.3 8.3 15.3 8.3 12S9.6 5.7 12 3.4z"/></symbol>
+  <symbol id="i-building" viewBox="0 0 24 24"><path d="M4 21V6.5L12 3l8 3.5V21"/><path d="M2 21h20"/><path d="M9 21v-5h6v5"/><path d="M8.5 9h1.6M13.9 9h1.6M8.5 12.5h1.6M13.9 12.5h1.6"/></symbol>
+  <symbol id="i-paw" viewBox="0 0 24 24"><circle cx="7.4" cy="8.4" r="1.8"/><circle cx="12" cy="6.6" r="1.8"/><circle cx="16.6" cy="8.4" r="1.8"/><path d="M12 11.2c2.9 0 5.3 2 5.3 4.5 0 2-1.6 3.3-3.5 3.3-.7 0-1.2-.2-1.8-.2s-1.1.2-1.8.2c-1.9 0-3.5-1.3-3.5-3.3 0-2.5 2.4-4.5 5.3-4.5z"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7.6-4.5-7.6-9.5A4.2 4.2 0 0112 8.1a4.2 4.2 0 017.6 2.4c0 5-7.6 9.5-7.6 9.5z"/></symbol>
+  <symbol id="i-flask" viewBox="0 0 24 24"><path d="M9.4 3h5.2"/><path d="M10.4 3v5.3L5.6 18a2 2 0 001.7 3h9.4a2 2 0 001.7-3l-4.8-9.7V3"/><path d="M7.7 15h8.6"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24"><path d="M8.5 7.5L3.5 12l5 4.5"/><path d="M15.5 7.5l5 4.5-5 4.5"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 24 24"><path d="M3 4h2.2l2.4 10.4h9.7l2.2-7.6H6"/><circle cx="9" cy="19" r="1.6"/><circle cx="17" cy="19" r="1.6"/></symbol>
+  <symbol id="i-bowl" viewBox="0 0 24 24"><path d="M3.5 11h17a8.5 8.5 0 01-17 0z"/><path d="M8 20h8"/><path d="M9.6 7.6c0-1.1 1.1-1.1 1.1-2.2M13.4 7.6c0-1.1 1.1-1.1 1.1-2.2"/></symbol>
+  <symbol id="i-droplet" viewBox="0 0 24 24"><path d="M12 3.4c3.5 4 6 7 6 9.9A6 6 0 016 13.3c0-2.9 2.5-5.9 6-9.9z"/></symbol>
+  <symbol id="i-chip" viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10" rx="2"/><path d="M10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2.6v3M12 18.4v3M2.6 12h3M18.4 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M18.7 5.3l-2.1 2.1M7.4 16.6l-2.1 2.1"/></symbol>
+  <symbol id="i-car" viewBox="0 0 24 24"><path d="M3.6 14.4l1.6-4.3a2 2 0 011.9-1.3h9.8a2 2 0 011.9 1.3l1.6 4.3"/><path d="M2.8 14.4h18.4V18h-2.4M5.2 18H2.8"/><circle cx="7" cy="18" r="1.7"/><circle cx="17" cy="18" r="1.7"/></symbol>
+  <symbol id="i-truck" viewBox="0 0 24 24"><path d="M2 7h11v9H2z"/><path d="M13 10h4.5l3.5 3.5V16H13"/><circle cx="6.5" cy="18.5" r="1.8"/><circle cx="17" cy="18.5" r="1.8"/></symbol>
+  <symbol id="i-tag" viewBox="0 0 24 24"><path d="M12.6 3H20v7.4L9.5 21 3 14.5 12.6 3z"/><circle cx="16.4" cy="7" r="1.4"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 10.5L12 4l8 6.5V20H4z"/><path d="M9.5 20v-6h5v6"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><rect x="5" y="3.5" width="14" height="17" rx="2"/><path d="M8.6 8.2h6.8M8.6 12h6.8M8.6 15.8h4.4"/></symbol>
+  <symbol id="i-coin" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M9 9h4.6a2.2 2.2 0 010 4.4H9M9 15h6"/><path d="M10.6 6.5v11"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8"/></symbol>
+  <symbol id="i-cap" viewBox="0 0 24 24"><path d="M2.5 9L12 5l9.5 4L12 13 2.5 9z"/><path d="M6.5 10.7V16c0 1.7 2.5 3 5.5 3s5.5-1.3 5.5-3v-5.3"/></symbol>
+  <symbol id="i-bank" viewBox="0 0 24 24"><path d="M3 9.5L12 4l9 5.5"/><path d="M5 20V11M9.5 20V11M14.5 20V11M19 20V11"/><path d="M3 20h18"/></symbol>
+  <symbol id="i-briefcase" viewBox="0 0 24 24"><rect x="3" y="7.5" width="18" height="12" rx="2"/><path d="M9 7.5V6a2 2 0 012-2h2a2 2 0 012 2v1.5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M4.5 12.5l4.8 4.8L19.5 7"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.6 7l8.4 6 8.4-6"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s6.5-6.1 6.5-10.5A6.5 6.5 0 005.5 10.5C5.5 14.9 12 21 12 21z"/><circle cx="12" cy="10.4" r="2.4"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></symbol>
+</svg>
+
+<div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+
+<!-- ================= header ================= -->
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a class="brand" href="#top" aria-label="moogoong — home">
+      <!-- light logo (charcoal + crimson) -->
+      <svg class="logo-dark" viewBox="125 361 1452 236" role="img" aria-label="moogoong">
+        <path d="M 158.50,514.00 L 158.50,446.50 A 56.50,56.50 0 0 1 215.00,390.00 C 272.00,390.00 284.97,491.50 353.00,491.50 C 417.62,491.50 431.00,390.50 491.00,390.50 A 53.50,53.50 0 0 1 544.50,444.00 L 544.50,514.00" fill="none" stroke="#1F2022" stroke-width="38" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M 143.75,579.00 Q 350.50,533.80 557.25,579.00" fill="none" stroke="#C9332B" stroke-width="17.5" stroke-linecap="round"/>
+        <circle cx="682" cy="475.25" r="50.25" fill="none" stroke="#1F2022" stroke-width="17"/>
+        <circle cx="825.5" cy="475.25" r="50.25" fill="none" stroke="#1F2022" stroke-width="17"/>
+        <path d="M 1006.20,440.66 A 50.25,50.25 0 1 0 1004.66,511.40" fill="none" stroke="#1F2022" stroke-width="17" stroke-linecap="butt"/>
+        <rect x="971" y="473.5" width="45" height="15" rx="4" fill="#1F2022"/>
+        <rect x="999" y="473.5" width="17" height="43.5" rx="4" fill="#1F2022"/>
+        <circle cx="1103" cy="475.25" r="50.25" fill="none" stroke="#1F2022" stroke-width="17"/>
+        <circle cx="1247.5" cy="475.25" r="50.25" fill="none" stroke="#1F2022" stroke-width="17"/>
+        <path d="M 1346.50,533.00 L 1346.50,421.00 L 1427.50,533.00 L 1427.50,421.00" fill="none" stroke="#1F2022" stroke-width="17" stroke-linecap="butt" stroke-linejoin="round"/>
+        <path d="M 1556.20,440.66 A 50.25,50.25 0 1 0 1554.66,511.40" fill="none" stroke="#1F2022" stroke-width="17" stroke-linecap="butt"/>
+        <rect x="1521" y="473.5" width="45" height="15" rx="4" fill="#1F2022"/>
+        <rect x="1549" y="473.5" width="17" height="43.5" rx="4" fill="#1F2022"/>
+      </svg>
+      <!-- dark-background logo (white + crimson) -->
+      <svg class="logo-light" viewBox="125 361 1452 236" role="img" aria-label="moogoong">
+        <path d="M 158.50,514.00 L 158.50,446.50 A 56.50,56.50 0 0 1 215.00,390.00 C 272.00,390.00 284.97,491.50 353.00,491.50 C 417.62,491.50 431.00,390.50 491.00,390.50 A 53.50,53.50 0 0 1 544.50,444.00 L 544.50,514.00" fill="none" stroke="#FFFFFF" stroke-width="38" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M 143.75,579.00 Q 350.50,533.80 557.25,579.00" fill="none" stroke="#C9332B" stroke-width="17.5" stroke-linecap="round"/>
+        <circle cx="682" cy="475.25" r="50.25" fill="none" stroke="#FFFFFF" stroke-width="17"/>
+        <circle cx="825.5" cy="475.25" r="50.25" fill="none" stroke="#FFFFFF" stroke-width="17"/>
+        <path d="M 1006.20,440.66 A 50.25,50.25 0 1 0 1004.66,511.40" fill="none" stroke="#FFFFFF" stroke-width="17" stroke-linecap="butt"/>
+        <rect x="971" y="473.5" width="45" height="15" rx="4" fill="#FFFFFF"/>
+        <rect x="999" y="473.5" width="17" height="43.5" rx="4" fill="#FFFFFF"/>
+        <circle cx="1103" cy="475.25" r="50.25" fill="none" stroke="#FFFFFF" stroke-width="17"/>
+        <circle cx="1247.5" cy="475.25" r="50.25" fill="none" stroke="#FFFFFF" stroke-width="17"/>
+        <path d="M 1346.50,533.00 L 1346.50,421.00 L 1427.50,533.00 L 1427.50,421.00" fill="none" stroke="#FFFFFF" stroke-width="17" stroke-linecap="butt" stroke-linejoin="round"/>
+        <path d="M 1556.20,440.66 A 50.25,50.25 0 1 0 1554.66,511.40" fill="none" stroke="#FFFFFF" stroke-width="17" stroke-linecap="butt"/>
+        <rect x="1521" y="473.5" width="45" height="15" rx="4" fill="#FFFFFF"/>
+        <rect x="1549" y="473.5" width="17" height="43.5" rx="4" fill="#FFFFFF"/>
+      </svg>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#industries">Industries</a>
+      <a href="#recruiting">Recruiting</a>
+      <a href="#collaboration">Collaboration</a>
+      <a href="#support">Support</a>
+      <a href="#data">Data</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="header-tools">
+      <a href="#contact" class="btn btn-primary btn-sm">Consult with us</a>
+      <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav">
+        <svg class="ico" id="navIcon"><use href="#i-menu"></use></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<nav class="mobile-nav" id="mobileNav" aria-label="Mobile">
+  <a href="#about">About</a>
+  <a href="#services">Services</a>
+  <a href="#industries">Industries</a>
+  <a href="#recruiting">Recruiting</a>
+  <a href="#collaboration">Collaboration</a>
+  <a href="#support">Support</a>
+  <a href="#data">Data &amp; Research</a>
+  <a href="#contact">Contact</a>
+  <a href="#contact" class="btn btn-primary">Consult with us</a>
+</nav>
+
+<main id="main">
+
+<!-- ================= hero ================= -->
+<section class="hero" id="top">
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <span class="eyebrow" data-hero="1">Korea · Global Business Partner</span>
+      <h1>
+        <span class="line"><span data-hero="2">Connecting Korea</span></span>
+        <span class="line"><span data-hero="3">&amp; the World</span></span>
+      </h1>
+      <p class="hero-em" data-hero="4">Your trusted business partner.</p>
+      <p class="hero-lead" data-hero="5">moogoong is a Korea-based consulting and business platform. We help global companies enter and grow in the Korean market, and Korean companies expand into markets abroad.</p>
+      <div class="hero-actions" data-hero="6">
+        <a href="#contact" class="btn btn-primary">Consult with us <svg class="ico"><use href="#i-arrow"></use></svg></a>
+        <a href="#services" class="btn btn-ghost">Explore services</a>
+      </div>
+      <ul class="hero-points" data-hero="7">
+        <li><span class="n">01</span>Market entry research</li>
+        <li><span class="n">02</span>Regulatory &amp; certification</li>
+        <li><span class="n">03</span>CS &amp; returns operations</li>
+        <li><span class="n">04</span>Talent &amp; research</li>
+      </ul>
+    </div>
+
+    <div class="hero-visual">
+      <div class="plate" data-hero="8">
+        <svg class="lockup" viewBox="125 361 1452 236" role="img" aria-label="moogoong — M bridge, crimson arch and OOGOONG wordmark">
+          <path class="logo-wave" d="M 158.50,514.00 L 158.50,446.50 A 56.50,56.50 0 0 1 215.00,390.00 C 272.00,390.00 284.97,491.50 353.00,491.50 C 417.62,491.50 431.00,390.50 491.00,390.50 A 53.50,53.50 0 0 1 544.50,444.00 L 544.50,514.00" fill="none" stroke="#FFFFFF" stroke-width="38" stroke-linecap="round" stroke-linejoin="round"/>
+          <path class="logo-arch" d="M 143.75,579.00 Q 350.50,533.80 557.25,579.00" fill="none" stroke="#C9332B" stroke-width="17.5" stroke-linecap="round"/>
+          <g class="logo-word" fill="#FFFFFF">
+            <g class="ltr"><circle cx="682" cy="475.25" r="50.25" fill="none" stroke="#FFFFFF" stroke-width="17"/></g>
+            <g class="ltr"><circle cx="825.5" cy="475.25" r="50.25" fill="none" stroke="#FFFFFF" stroke-width="17"/></g>
+            <g class="ltr">
+              <path d="M 1006.20,440.66 A 50.25,50.25 0 1 0 1004.66,511.40" fill="none" stroke="#FFFFFF" stroke-width="17" stroke-linecap="butt"/>
+              <rect x="971" y="473.5" width="45" height="15" rx="4" fill="#FFFFFF"/>
+              <rect x="999" y="473.5" width="17" height="43.5" rx="4" fill="#FFFFFF"/>
+            </g>
+            <g class="ltr"><circle cx="1103" cy="475.25" r="50.25" fill="none" stroke="#FFFFFF" stroke-width="17"/></g>
+            <g class="ltr"><circle cx="1247.5" cy="475.25" r="50.25" fill="none" stroke="#FFFFFF" stroke-width="17"/></g>
+            <g class="ltr"><path d="M 1346.50,533.00 L 1346.50,421.00 L 1427.50,533.00 L 1427.50,421.00" fill="none" stroke="#FFFFFF" stroke-width="17" stroke-linecap="butt" stroke-linejoin="round"/></g>
+            <g class="ltr">
+              <path d="M 1556.20,440.66 A 50.25,50.25 0 1 0 1554.66,511.40" fill="none" stroke="#FFFFFF" stroke-width="17" stroke-linecap="butt"/>
+              <rect x="1521" y="473.5" width="45" height="15" rx="4" fill="#FFFFFF"/>
+              <rect x="1549" y="473.5" width="17" height="43.5" rx="4" fill="#FFFFFF"/>
+            </g>
+          </g>
+        </svg>
+        <div class="plate-cap">
+          <span class="rule"></span>
+          <span>Trust · Growth · Connection</span>
+        </div>
+        <div class="plate-meta"><span>Korea</span><span>Korean · English</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll"><span><span class="bar"></span>Scroll</span></div>
+</section>
+
+<!-- ================= 01 brand ================= -->
+<section class="section" id="brand">
+  <div class="wrap">
+    <div class="section-head wide" data-reveal>
+      <span class="eyebrow">01 — Our Brand</span>
+      <h2>A bridge, an arch, and a word without limits</h2>
+      <p>The moogoong mark is made of two strokes and one word. Each one carries a promise we are measured against — so we keep them on the page, not only on the letterhead.</p>
+    </div>
+
+    <div class="brand-grid" data-stagger>
+      <article class="brand-card">
+        <div class="tile tile--mark">
+          <svg viewBox="133 369 436 167" role="img" aria-label="The rounded M bridge">
+            <path d="M 158.50,514.00 L 158.50,446.50 A 56.50,56.50 0 0 1 215.00,390.00 C 272.00,390.00 284.97,491.50 353.00,491.50 C 417.62,491.50 431.00,390.50 491.00,390.50 A 53.50,53.50 0 0 1 544.50,444.00 L 544.50,514.00" fill="none" stroke="#1F2022" stroke-width="38" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="body">
+          <h3>The M Bridge — two shores, one structure</h3>
+          <p>The M is drawn as a single rounded stroke: two arches that rise from the ground and meet in the middle. It is the crossing between a company and a market it has not met yet — the part that has to carry weight.</p>
+        </div>
+      </article>
+
+      <article class="brand-card">
+        <div class="tile tile--arch">
+          <svg viewBox="133 543 436 50" role="img" aria-label="The crimson arch">
+            <path d="M 143.75,579.00 Q 350.50,533.80 557.25,579.00" fill="none" stroke="#C9332B" stroke-width="17.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="body">
+          <h3>The crimson arch — the promise beneath</h3>
+          <p>Under the structure runs one warm red line: the only colour in the mark. It is the commitment that holds the crossing up — a clear scope, clear terms, and results that can be inspected line by line.</p>
+        </div>
+      </article>
+
+      <article class="brand-card">
+        <div class="tile tile--word">
+          <svg viewBox="620 413 950 124" role="img" aria-label="The OOGOONG wordmark">
+            <circle cx="682" cy="475.25" r="50.25" fill="none" stroke="#1F2022" stroke-width="17"/>
+            <circle cx="825.5" cy="475.25" r="50.25" fill="none" stroke="#1F2022" stroke-width="17"/>
+            <path d="M 1006.20,440.66 A 50.25,50.25 0 1 0 1004.66,511.40" fill="none" stroke="#1F2022" stroke-width="17" stroke-linecap="butt"/>
+            <rect x="971" y="473.5" width="45" height="15" rx="4" fill="#1F2022"/>
+            <rect x="999" y="473.5" width="17" height="43.5" rx="4" fill="#1F2022"/>
+            <circle cx="1103" cy="475.25" r="50.25" fill="none" stroke="#1F2022" stroke-width="17"/>
+            <circle cx="1247.5" cy="475.25" r="50.25" fill="none" stroke="#1F2022" stroke-width="17"/>
+            <path d="M 1346.50,533.00 L 1346.50,421.00 L 1427.50,533.00 L 1427.50,421.00" fill="none" stroke="#1F2022" stroke-width="17" stroke-linecap="butt" stroke-linejoin="round"/>
+            <path d="M 1556.20,440.66 A 50.25,50.25 0 1 0 1554.66,511.40" fill="none" stroke="#1F2022" stroke-width="17" stroke-linecap="butt"/>
+            <rect x="1521" y="473.5" width="45" height="15" rx="4" fill="#1F2022"/>
+            <rect x="1549" y="473.5" width="17" height="43.5" rx="4" fill="#1F2022"/>
+          </svg>
+        </div>
+        <div class="body">
+          <h3>OOGOONG — endless</h3>
+          <p>Set in circles and straight lines, the wordmark reads past the first letter and keeps going. moogoong means “without limits”: no ceiling on the markets a Korean company can work in, or the partners it can reach.</p>
+        </div>
+      </article>
+    </div>
+
+    <div class="brand-note" data-reveal>
+      <svg class="ico"><use href="#i-check"></use></svg>
+      <p><strong>The mark in use.</strong> The bridge, the arch and the wordmark are the whole identity — no badge, no extra shape. Everything we send uses the same three elements at the same weight, in charcoal and one crimson red.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 02 about ================= -->
+<section class="section section-soft" id="about">
+  <div class="wrap">
+    <div class="section-head wide" data-reveal>
+      <span class="eyebrow">02 — About moogoong</span>
+      <h2>One partner across the whole entry, not a series of vendors</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-copy" data-reveal>
+        <p>moogoong is a comprehensive consulting and business platform based in Korea. We bridge foreign companies entering the Korean market and Korean companies expanding abroad — combining market research, regulatory work, channel operations and customer service in one team.</p>
+        <p>A typical market entry meets Korea through four or five separate agencies: a research firm, a certification consultant, a distributor, a CS vendor, an accountant. Each answers only its own question. moogoong keeps one thread from the first market question to the daily operation, so the findings, the launch plan and the service standard stay consistent.</p>
+        <div class="about-note">
+          <strong>Why it matters</strong>
+          <span>When one team owns research, regulation and operations, a finding does not get lost between handovers — and a promise made in the proposal is the promise kept in the service contract.</span>
+        </div>
+      </div>
+
+      <div data-reveal>
+        <div class="sol-head">
+          <h3>Seven one-stop solutions</h3>
+          <span>Research → Entry → Operations</span>
+        </div>
+        <ol class="solutions">
+          <li><div><h4>Market Feasibility &amp; Entry Study</h4><p>Demand, pricing, competition and the entry model that fits the category.</p></div></li>
+          <li><div><h4>Regulatory &amp; Certification Navigation</h4><p>Required approvals, testing, labelling and a realistic timeline.</p></div></li>
+          <li><div><h4>Partner &amp; Channel Setup</h4><p>Distributors, agents, marketplaces and official brand stores.</p></div></li>
+          <li><div><h4>Sales &amp; Pricing Operations</h4><p>Price architecture, promotions and margin planning that protect the brand.</p></div></li>
+          <li><div><h4>Customer Service &amp; Returns</h4><p>Korean-language customer support, returns and refund operations.</p></div></li>
+          <li><div><h4>Talent &amp; Organization</h4><p>Hiring, recruiting support and the first local team.</p></div></li>
+          <li><div><h4>Market Intelligence &amp; Advisory</h4><p>Ongoing monitoring, customer feedback and regular reviews.</p></div></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 03 services ================= -->
+<section class="section" id="services">
+  <div class="wrap">
+    <div class="section-head wide" data-reveal>
+      <span class="eyebrow">03 — Core Services</span>
+      <h2>Nine services, one operating standard</h2>
+      <p>Each service can be taken on its own. Most clients start with one and add the next as the market answers back.</p>
+    </div>
+    <div class="grid-3" data-stagger>
+      <article class="card">
+        <div class="svc-top"><span class="svc-num">01</span><span class="svc-ico"><svg class="ico"><use href="#i-search"></use></svg></span></div>
+        <h3>Market Research &amp; Entry Strategy</h3>
+        <p>Market sizing, competitor mapping, price benchmarking and a practical entry model: import, partnership, marketplace or a local entity.</p>
+      </article>
+      <article class="card">
+        <div class="svc-top"><span class="svc-num">02</span><span class="svc-ico"><svg class="ico"><use href="#i-shield"></use></svg></span></div>
+        <h3>Certification &amp; Regulatory Support</h3>
+        <p>What Korea requires before a product can be sold: certification routes, testing, labelling, and the sequence that keeps launch dates realistic.</p>
+      </article>
+      <article class="card">
+        <div class="svc-top"><span class="svc-num">03</span><span class="svc-ico"><svg class="ico"><use href="#i-headset"></use></svg></span></div>
+        <h3>CS &amp; Return Center Operations</h3>
+        <p>Korean-language customer service, returns, refunds, exchanges and escalation — run to response and resolution targets agreed in writing.</p>
+      </article>
+      <article class="card">
+        <div class="svc-top"><span class="svc-num">04</span><span class="svc-ico"><svg class="ico"><use href="#i-users"></use></svg></span></div>
+        <h3>Talent Placement &amp; Recruiting</h3>
+        <p>From role definition to shortlist: local hiring for sales, marketing, operations and technical roles, with the interview process managed end to end.</p>
+      </article>
+      <article class="card">
+        <div class="svc-top"><span class="svc-num">05</span><span class="svc-ico"><svg class="ico"><use href="#i-chart"></use></svg></span></div>
+        <h3>Labor Market &amp; Employment Research</h3>
+        <p>Salary benchmarks, role availability, hiring timelines and employment practice — the facts behind a Korean team plan.</p>
+      </article>
+      <article class="card">
+        <div class="svc-top"><span class="svc-num">06</span><span class="svc-ico"><svg class="ico"><use href="#i-chat"></use></svg></span></div>
+        <h3>Expert Interviews &amp; Data Analysis</h3>
+        <p>Structured interviews with Korean buyers, distributors and specialists, analysed into decisions rather than opinions.</p>
+      </article>
+      <article class="card">
+        <div class="svc-top"><span class="svc-num">07</span><span class="svc-ico"><svg class="ico"><use href="#i-layers"></use></svg></span></div>
+        <h3>Industry-Specific Consulting</h3>
+        <p>Category-level advice where regulation, channels and buyer behaviour differ — pet, healthcare, chemicals, IT and retail among them.</p>
+      </article>
+      <article class="card">
+        <div class="svc-top"><span class="svc-num">08</span><span class="svc-ico"><svg class="ico"><use href="#i-globe"></use></svg></span></div>
+        <h3>Korea–Global Business Collaboration</h3>
+        <p>Partner matching, trade show participation &amp; operations support, buyer meeting coordination, and joint project design between Korean and overseas companies.</p>
+      </article>
+      <article class="card">
+        <div class="svc-top"><span class="svc-num">09</span><span class="svc-ico"><svg class="ico"><use href="#i-building"></use></svg></span></div>
+        <h3>Global Company Information</h3>
+        <p>Company profiles, ownership and contact routes, checked before a first approach so the message reaches the right team.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 04 industries ================= -->
+<section class="section section-soft" id="industries">
+  <div class="wrap">
+    <div class="section-head wide" data-reveal>
+      <span class="eyebrow">04 — Industry Expertise</span>
+      <h2>Seventeen industries, one operating standard</h2>
+      <p>Regulation, channels and buyer behaviour differ by category. The discipline does not: research first, then a plan that survives contact with the market.</p>
+    </div>
+
+    <div class="ind-featured" data-stagger>
+      <article class="ind-card">
+        <div class="ind-ico"><svg class="ico"><use href="#i-paw"></use></svg></div>
+        <h3>Pet Industry</h3>
+        <p>Food, treats, accessories and veterinary care: import rules, online channels and community-led demand.</p>
+      </article>
+      <article class="ind-card">
+        <div class="ind-ico"><svg class="ico"><use href="#i-heart"></use></svg></div>
+        <h3>Healthcare</h3>
+        <p>Medical devices and health products: certification pathways, evidence needs and clinic or hospital channels.</p>
+      </article>
+      <article class="ind-card">
+        <div class="ind-ico"><svg class="ico"><use href="#i-flask"></use></svg></div>
+        <h3>Chemicals</h3>
+        <p>Specialty chemicals and materials: technical documentation, industrial buyers and long-cycle project sales.</p>
+      </article>
+      <article class="ind-card">
+        <div class="ind-ico"><svg class="ico"><use href="#i-code"></use></svg></div>
+        <h3>IT &amp; Software</h3>
+        <p>SaaS, platforms and IT services: localisation, partner routes and B2B sales cycles in Korea.</p>
+      </article>
+      <article class="ind-card">
+        <div class="ind-ico"><svg class="ico"><use href="#i-cart"></use></svg></div>
+        <h3>Retail &amp; E-commerce</h3>
+        <p>Marketplaces, official stores and offline retail: pricing, promotion and fulfilment operations.</p>
+      </article>
+    </div>
+
+    <div data-reveal>
+      <div class="chips-label">All industries</div>
+      <ul class="chips">
+        <li class="chip strong"><svg class="ico"><use href="#i-paw"></use></svg>Pet &amp; Animal Health</li>
+        <li class="chip strong"><svg class="ico"><use href="#i-heart"></use></svg>Healthcare &amp; Medical Devices</li>
+        <li class="chip strong"><svg class="ico"><use href="#i-flask"></use></svg>Chemicals &amp; Materials</li>
+        <li class="chip strong"><svg class="ico"><use href="#i-code"></use></svg>IT &amp; Software</li>
+        <li class="chip strong"><svg class="ico"><use href="#i-cart"></use></svg>Retail &amp; E-commerce</li>
+        <li class="chip"><svg class="ico"><use href="#i-bowl"></use></svg>Food &amp; Beverage</li>
+        <li class="chip"><svg class="ico"><use href="#i-droplet"></use></svg>Cosmetics &amp; Beauty</li>
+        <li class="chip"><svg class="ico"><use href="#i-chip"></use></svg>Electronics &amp; Semiconductors</li>
+        <li class="chip"><svg class="ico"><use href="#i-gear"></use></svg>Industrial Machinery</li>
+        <li class="chip"><svg class="ico"><use href="#i-car"></use></svg>Automotive &amp; Mobility</li>
+        <li class="chip"><svg class="ico"><use href="#i-truck"></use></svg>Logistics &amp; Distribution</li>
+        <li class="chip"><svg class="ico"><use href="#i-tag"></use></svg>Fashion &amp; Apparel</li>
+        <li class="chip"><svg class="ico"><use href="#i-home"></use></svg>Home &amp; Interior</li>
+        <li class="chip"><svg class="ico"><use href="#i-building"></use></svg>Construction &amp; Materials</li>
+        <li class="chip"><svg class="ico"><use href="#i-sun"></use></svg>Energy &amp; Environment</li>
+        <li class="chip"><svg class="ico"><use href="#i-cap"></use></svg>Education &amp; EdTech</li>
+        <li class="chip"><svg class="ico"><use href="#i-coin"></use></svg>Finance &amp; Fintech</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 05 recruiting ================= -->
+<section class="section" id="recruiting">
+  <div class="wrap">
+    <div class="section-head wide" data-reveal>
+      <span class="eyebrow">05 — Recruiting &amp; Company Database</span>
+      <h2>The right person, and the right company to approach</h2>
+      <p>Two things decide whether a first approach lands: who carries it, and how much is actually known about the company on the other side.</p>
+    </div>
+    <div class="feature-list" data-stagger>
+      <article class="feature">
+        <div class="feat-ico"><svg class="ico"><use href="#i-users"></use></svg></div>
+        <h3>Talent Placement &amp; Recruiting</h3>
+        <p>Role definition, sourcing, screening, interview coordination and offer support for sales, marketing, operations and technical positions in Korea.</p>
+      </article>
+      <article class="feature">
+        <div class="feat-ico"><svg class="ico"><use href="#i-bank"></use></svg></div>
+        <h3>Korea &amp; Global Company Database</h3>
+        <p>Profiles of Korean buyers, distributors, manufacturers and service partners — ownership, scale, contact routes and recent activity — checked before a first approach.</p>
+      </article>
+      <article class="feature">
+        <div class="feat-ico"><svg class="ico"><use href="#i-briefcase"></use></svg></div>
+        <h3>Recruiting Process Support</h3>
+        <p>Job descriptions written for the Korean market, candidate communication, interview scheduling and structured feedback after each round.</p>
+      </article>
+    </div>
+    <div class="note-line" data-reveal>
+      <svg class="ico ico-sm"><use href="#i-shield"></use></svg>
+      <span>Employers and candidates are handled under the same confidentiality: a CV or contact detail is shared only with the party that needs it for that role.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 06 collaboration ================= -->
+<section class="section section-soft" id="collaboration">
+  <div class="wrap">
+    <div class="section-head wide" data-reveal>
+      <span class="eyebrow">06 — Korea–Global Collaboration &amp; Information</span>
+      <h2>Partnerships that begin with the right introduction</h2>
+      <p>Most cross-border deals do not fail on price. They fail on a mismatched partner, a meeting held with the wrong team, or a fact that was only discovered after the contract. We work on all three.</p>
+    </div>
+    <div class="feature-list" data-stagger>
+      <article class="feature">
+        <div class="feat-ico"><svg class="ico"><use href="#i-globe"></use></svg></div>
+        <h3>Partner Matching &amp; Introductions</h3>
+        <p>A shortlist built on fit — product range, channel reach, scale and appetite — not on who is easiest to reach.</p>
+      </article>
+      <article class="feature">
+        <div class="feat-ico"><svg class="ico"><use href="#i-pin"></use></svg></div>
+        <h3>Trade Shows, Visits &amp; Delegation Support</h3>
+        <p>Exhibition booth participation, on-site operations, scheduling, interpretation and follow-up for trade shows, buyer meetings and visiting delegations.</p>
+      </article>
+      <article class="feature">
+        <div class="feat-ico"><svg class="ico"><use href="#i-book"></use></svg></div>
+        <h3>Korea Information Desk</h3>
+        <p>Regulatory changes, channel shifts, trade events and category news, briefed in the language and depth your team needs.</p>
+      </article>
+    </div>
+
+    <div class="process-wrap" data-reveal>
+      <div class="process-label">How a collaboration runs</div>
+      <ul class="process">
+        <li><div class="step">STEP 01</div><h4>Brief &amp; scope</h4><p>What you want to know, sell or find — written down.</p></li>
+        <li><div class="step">STEP 02</div><h4>Research &amp; shortlist</h4><p>Evidence, candidates and the questions still open.</p></li>
+        <li><div class="step">STEP 03</div><h4>Introductions &amp; meetings</h4><p>Approaches made, meetings held, notes shared.</p></li>
+        <li><div class="step">STEP 04</div><h4>Follow-through</h4><p>Terms, operations and the next review date.</p></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 07 support ================= -->
+<section class="section" id="support">
+  <div class="wrap">
+    <div class="section-head wide" data-reveal>
+      <span class="eyebrow">07 — Customer Support</span>
+      <h2>Customer service run the Korean way</h2>
+      <p>In Korea, service is part of the product. We answer in Korean, on the channels your customers actually use, against response and resolution targets agreed in writing.</p>
+    </div>
+    <div class="feature-list" data-stagger>
+      <article class="feature">
+        <div class="feat-ico"><svg class="ico"><use href="#i-cart"></use></svg></div>
+        <h3>B2C Customer Support</h3>
+        <p>Product enquiries, delivery, returns, exchanges and refunds across marketplaces and your own store — in Korean, with written response standards.</p>
+      </article>
+      <article class="feature">
+        <div class="feat-ico"><svg class="ico"><use href="#i-briefcase"></use></svg></div>
+        <h3>B2B Partner Support</h3>
+        <p>Order and supply enquiries, claims and escalations for distributors and retail partners, with a named contact and a set review rhythm.</p>
+      </article>
+      <article class="feature">
+        <div class="feat-ico"><svg class="ico"><use href="#i-headset"></use></svg></div>
+        <h3>Integrated CS Platform</h3>
+        <p>One queue for every channel — email, marketplace messages, chat and phone — with shared history, tags and reporting, so nothing is answered twice or lost.</p>
+      </article>
+    </div>
+    <ul class="support-bullets" data-stagger>
+      <li><svg class="ico ico-sm"><use href="#i-check"></use></svg>Response and resolution targets set per client and reviewed monthly</li>
+      <li><svg class="ico ico-sm"><use href="#i-check"></use></svg>A weekly customer-feedback summary, in your language</li>
+      <li><svg class="ico ico-sm"><use href="#i-check"></use></svg>A named escalation contact, not a ticket number</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= 08 data ================= -->
+<section class="section section-soft" id="data">
+  <div class="wrap">
+    <div class="section-head wide" data-reveal>
+      <span class="eyebrow">08 — Data &amp; Research Center</span>
+      <h2>Research that ends in a decision</h2>
+      <p>Reports are written to be used, not archived. Each one states what the data supports, what it does not, and what we would do next.</p>
+    </div>
+    <div class="grid-2" data-stagger>
+      <article class="card">
+        <div class="svc-top"><span class="svc-num">01</span><span class="svc-ico"><svg class="ico"><use href="#i-chart"></use></svg></span></div>
+        <h3>Labor Market &amp; Employment Research</h3>
+        <p>Salary bands, role availability, hiring lead times and employment practice for the positions you plan to create.</p>
+      </article>
+      <article class="card">
+        <div class="svc-top"><span class="svc-num">02</span><span class="svc-ico"><svg class="ico"><use href="#i-chat"></use></svg></span></div>
+        <h3>Expert Interviews &amp; Data Analysis</h3>
+        <p>Structured interviews with buyers, distributors and category specialists, coded and analysed into a clear reading of the market.</p>
+      </article>
+      <article class="card">
+        <div class="svc-top"><span class="svc-num">03</span><span class="svc-ico"><svg class="ico"><use href="#i-book"></use></svg></span></div>
+        <h3>Industry &amp; Category Reports</h3>
+        <p>Category structure, price tiers, channel mix and the regulatory points that change the plan.</p>
+      </article>
+      <article class="card">
+        <div class="svc-top"><span class="svc-num">04</span><span class="svc-ico"><svg class="ico"><use href="#i-layers"></use></svg></span></div>
+        <h3>Custom Surveys &amp; Analysis</h3>
+        <p>Buyer surveys, price tests and concept checks designed and run in Korean, delivered with the raw responses.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= cta band ================= -->
+<section class="cta-band">
+  <div class="wrap cta-band-inner" data-reveal>
+    <div>
+      <span class="eyebrow">Korea · Global Business Partner</span>
+      <h2>One team from the first market question to daily operations.</h2>
+    </div>
+    <a href="#contact" class="btn btn-primary">Consult with us <svg class="ico"><use href="#i-arrow"></use></svg></a>
+  </div>
+</section>
+
+<!-- ================= 09 contact ================= -->
+<section class="section" id="contact">
+  <div class="wrap">
+    <div class="section-head wide" data-reveal>
+      <span class="eyebrow">09 — Contact &amp; Consultation</span>
+      <h2>Tell us what you are trying to do in Korea</h2>
+      <p>A short description is enough to start. We will come back with the questions we need answered, and a shape for the work.</p>
+    </div>
+
+    <div class="contact-grid">
+      <form class="form-card" id="inquiryForm" novalidate data-reveal>
+        <div class="form-grid">
+          <div class="field">
+            <label for="f-name">Name <span class="req">*</span></label>
+            <input id="f-name" name="name" type="text" placeholder="Your name" required>
+          </div>
+          <div class="field">
+            <label for="f-company">Company</label>
+            <input id="f-company" name="company" type="text" placeholder="Company name">
+          </div>
+          <div class="field">
+            <label for="f-email">Email <span class="req">*</span></label>
+            <input id="f-email" name="email" type="email" placeholder="name@company.com" required>
+          </div>
+          <div class="field">
+            <label for="f-country">Country / Region</label>
+            <input id="f-country" name="country" type="text" placeholder="e.g. Germany">
+          </div>
+          <div class="field full">
+            <label for="f-topic">Area of interest</label>
+            <select id="f-topic" name="topic">
+              <option value="entry">Market entry &amp; research</option>
+              <option value="regulatory">Certification &amp; regulatory</option>
+              <option value="cs">CS &amp; returns</option>
+              <option value="talent">Recruiting &amp; talent</option>
+              <option value="partner">Collaboration &amp; partnership</option>
+              <option value="other">Something else</option>
+            </select>
+          </div>
+          <div class="field full">
+            <label for="f-message">Message</label>
+            <textarea id="f-message" name="message" placeholder="What are you planning, and what would you like to know first?"></textarea>
+          </div>
+        </div>
+        <label class="consent" for="f-consent">
+          <input id="f-consent" type="checkbox">
+          <span>I agree that moogoong may use the information above to respond to this enquiry.</span>
+        </label>
+        <div class="form-foot">
+          <button type="submit" class="btn btn-primary">Send inquiry <svg class="ico"><use href="#i-arrow"></use></svg></button>
+          <span class="form-note">Preview form — submissions are not sent yet.</span>
+        </div>
+        <p class="form-msg" id="formMsg" role="status"></p>
+      </form>
+
+      <aside class="contact-aside" data-reveal>
+        <div class="info-card">
+          <h3>Contact details</h3>
+          <dl>
+            <div class="info-row">
+              <svg class="ico"><use href="#i-mail"></use></svg>
+              <div><dt>Email</dt><dd><a href="mailto:contact@moogoongpartners.com">contact@moogoongpartners.com</a></dd></div>
+            </div>
+            <div class="info-row">
+              <svg class="ico"><use href="#i-pin"></use></svg>
+              <div><dt>Location</dt><dd>South Korea</dd></div>
+            </div>
+            <div class="info-row">
+              <svg class="ico"><use href="#i-globe"></use></svg>
+              <div><dt>Languages</dt><dd>Korean · English</dd></div>
+            </div>
+          </dl>
+        </div>
+        <div class="aside-next">
+          <h3>What happens next</h3>
+          <ol>
+            <li><span><strong>A reply</strong> — with the questions we still need answered.</span></li>
+            <li><span><strong>A short call</strong> — in English or Korean, to test the fit.</span></li>
+            <li><span><strong>A written scope</strong> — question, deliverable, timeline and fee before any work starts.</span></li>
+          </ol>
+        </div>
+        <p class="aside-note">Enquiries are reviewed by our team in Korea. Please include your country and the category you are working in so the reply reaches the right person.</p>
+      </aside>
+    </div>
+
+    <div class="faq" data-reveal>
+      <div class="faq-head"><h3>Frequently asked</h3></div>
+      <details class="faq-item">
+        <summary>Do you work with companies that have no Korean entity?</summary>
+        <div class="faq-body">Yes — most of our clients start without one. An entry can be tested through a distributor, a marketplace or a local partner before any entity is set up.</div>
+      </details>
+      <details class="faq-item">
+        <summary>Can you handle certification for us?</summary>
+        <div class="faq-body">We map what your product needs, prepare and coordinate the documents with test labs and certification bodies, and keep the launch schedule realistic. The certificates themselves are issued by the Korean authorities.</div>
+      </details>
+      <details class="faq-item">
+        <summary>Which languages do you work in?</summary>
+        <div class="faq-body">Korean and English for day-to-day work. Project documents and reports can be delivered in both.</div>
+      </details>
+      <details class="faq-item">
+        <summary>How does a project usually start?</summary>
+        <div class="faq-body">With a short scoping call and a written scope: the question, the deliverable, the timeline and the fee, agreed before work begins.</div>
+      </details>
+      <details class="faq-item">
+        <summary>Do you also support Korean companies going abroad?</summary>
+        <div class="faq-body">Yes. The same platform works in the other direction: market research, partner search and channel setup for Korean companies entering overseas markets.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ================= footer ================= -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">
+          <svg viewBox="125 361 1452 236" role="img" aria-label="moogoong">
+            <path d="M 158.50,514.00 L 158.50,446.50 A 56.50,56.50 0 0 1 215.00,390.00 C 272.00,390.00 284.97,491.50 353.00,491.50 C 417.62,491.50 431.00,390.50 491.00,390.50 A 53.50,53.50 0 0 1 544.50,444.00 L 544.50,514.00" fill="none" stroke="#FFFFFF" stroke-width="38" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M 143.75,579.00 Q 350.50,533.80 557.25,579.00" fill="none" stroke="#C9332B" stroke-width="17.5" stroke-linecap="round"/>
+            <circle cx="682" cy="475.25" r="50.25" fill="none" stroke="#FFFFFF" stroke-width="17"/>
+            <circle cx="825.5" cy="475.25" r="50.25" fill="none" stroke="#FFFFFF" stroke-width="17"/>
+            <path d="M 1006.20,440.66 A 50.25,50.25 0 1 0 1004.66,511.40" fill="none" stroke="#FFFFFF" stroke-width="17" stroke-linecap="butt"/>
+            <rect x="971" y="473.5" width="45" height="15" rx="4" fill="#FFFFFF"/>
+            <rect x="999" y="473.5" width="17" height="43.5" rx="4" fill="#FFFFFF"/>
+            <circle cx="1103" cy="475.25" r="50.25" fill="none" stroke="#FFFFFF" stroke-width="17"/>
+            <circle cx="1247.5" cy="475.25" r="50.25" fill="none" stroke="#FFFFFF" stroke-width="17"/>
+            <path d="M 1346.50,533.00 L 1346.50,421.00 L 1427.50,533.00 L 1427.50,421.00" fill="none" stroke="#FFFFFF" stroke-width="17" stroke-linecap="butt" stroke-linejoin="round"/>
+            <path d="M 1556.20,440.66 A 50.25,50.25 0 1 0 1554.66,511.40" fill="none" stroke="#FFFFFF" stroke-width="17" stroke-linecap="butt"/>
+            <rect x="1521" y="473.5" width="45" height="15" rx="4" fill="#FFFFFF"/>
+            <rect x="1549" y="473.5" width="17" height="43.5" rx="4" fill="#FFFFFF"/>
+          </svg>
+        </div>
+        <p class="footer-tag">Connecting Korea &amp; the World — your trusted business partner.<br>South Korea · Since 2015</p>
+      </div>
+      <nav class="footer-nav" aria-label="Footer">
+        <div class="footer-col">
+          <h4>Company</h4>
+          <a href="#brand">Our brand</a>
+          <a href="#about">About</a>
+          <a href="#contact">Contact</a>
+        </div>
+        <div class="footer-col">
+          <h4>Work</h4>
+          <a href="#services">Services</a>
+          <a href="#industries">Industries</a>
+          <a href="#data">Data &amp; Research</a>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <a href="#">Privacy policy</a>
+          <a href="#">Terms of use</a>
+        </div>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 moogoong · Since 2015. All rights reserved.</span>
+      <span><a href="#top">Back to top ↑</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+<script>
+(function () {
+  "use strict";
+
+  var root = document.documentElement;
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function bailOut() { root.classList.remove("motion-ready"); }
+
+  /* ------------------------------------------------ header + mobile nav */
+  var header = document.getElementById("siteHeader");
+  var navToggle = document.querySelector(".nav-toggle");
+  var mobileNav = document.getElementById("mobileNav");
+  var navIcon = document.getElementById("navIcon").querySelector("use");
+
+  function headerState() {
+    var solid = window.scrollY > 10 || mobileNav.classList.contains("open");
+    header.classList.toggle("is-solid", window.scrollY > 10);
+  }
+  headerState();
+  window.addEventListener("scroll", headerState, { passive: true });
+
+  function setMenu(open) {
+    mobileNav.classList.toggle("open", open);
+    header.classList.toggle("is-open", open);
+    document.body.classList.toggle("nav-open", open);
+    navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+    navToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    navIcon.setAttribute("href", open ? "#i-close" : "#i-menu");
+    headerState();
+  }
+  navToggle.addEventListener("click", function () {
+    setMenu(!mobileNav.classList.contains("open"));
+  });
+  mobileNav.querySelectorAll("a").forEach(function (a) {
+    a.addEventListener("click", function () { setMenu(false); });
+  });
+  window.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && mobileNav.classList.contains("open")) setMenu(false);
+  });
+
+  /* ------------------------------------------------ preview form */
+  var form = document.getElementById("inquiryForm");
+  var formMsg = document.getElementById("formMsg");
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var name = document.getElementById("f-name").value.trim();
+    var email = document.getElementById("f-email").value.trim();
+    if (!name || !email) {
+      formMsg.textContent = "Please add your name and email.";
+      return;
+    }
+    formMsg.textContent = "Preview form — nothing was sent.";
+  });
+
+  /* ------------------------------------------------ motion layer */
+  function startMotion() {
+    if (reduce) { bailOut(); return; }
+    if (!window.gsap || !window.ScrollTrigger) { bailOut(); return; }
+
+    try {
+      var gsap = window.gsap;
+      gsap.registerPlugin(window.ScrollTrigger);
+      var ScrollTrigger = window.ScrollTrigger;
+
+      /* --- Lenis smooth scrolling, driven by the GSAP ticker --- */
+      var lenis = null;
+      if (window.Lenis) {
+        lenis = new window.Lenis({ lerp: 0.095, wheelMultiplier: 1, smoothWheel: true, syncTouch: false });
+        lenis.on("scroll", ScrollTrigger.update);
+        gsap.ticker.add(function (t) { lenis.raf(t * 1000); });
+        gsap.ticker.lagSmoothing(0);
+        window.__lenis = lenis;
+
+        document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+          a.addEventListener("click", function (ev) {
+            var id = a.getAttribute("href");
+            if (!id || id === "#") return;
+            var target = document.querySelector(id);
+            if (!target) return;
+            ev.preventDefault();
+            lenis.scrollTo(target, { offset: -78, duration: 1.15 });
+            history.replaceState(null, "", id);
+          });
+        });
+      }
+
+      /* --- scroll progress bar --- */
+      gsap.set("#progressBar", { transformOrigin: "left center" });
+      gsap.to("#progressBar", {
+        scaleX: 1, ease: "none",
+        scrollTrigger: { start: 0, end: "max", scrub: 0.3 }
+      });
+
+      /* --- hero entrance --- */
+      var wave = document.querySelector(".plate .logo-wave");
+      var arch = document.querySelector(".plate .logo-arch");
+      var letters = gsap.utils.toArray(".plate .ltr");
+      var waveLen = wave ? wave.getTotalLength() : 0;
+      var archLen = arch ? arch.getTotalLength() : 0;
+
+      if (wave) gsap.set(wave, { strokeDasharray: waveLen, strokeDashoffset: waveLen });
+      if (arch) gsap.set(arch, { strokeDasharray: archLen, strokeDashoffset: archLen });
+      gsap.set(letters, { opacity: 0, y: 10 });
+
+      /* fromTo (not from): the CSS pre-state is opacity 0, so an explicit end value is required */
+      var tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+      tl.fromTo("[data-hero='1']", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.7 }, 0.1)
+        .fromTo("[data-hero='2'], [data-hero='3']", { opacity: 0, yPercent: 112 }, { opacity: 1, yPercent: 0, duration: 0.95, stagger: 0.09 }, 0.15)
+        .fromTo("[data-hero='4']", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.8 }, 0.4)
+        .fromTo("[data-hero='5']", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.8 }, 0.5)
+        .fromTo("[data-hero='6']", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.8 }, 0.6)
+        .fromTo("[data-hero='7']", { opacity: 0 }, { opacity: 1, duration: 0.35 }, 0.62)
+        .fromTo("[data-hero='7'] li", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.7, stagger: 0.07 }, 0.7)
+        .fromTo("[data-hero='8']", { opacity: 0, y: 26, scale: 0.985 }, { opacity: 1, y: 0, scale: 1, duration: 1.1 }, 0.25);
+
+      if (wave) tl.to(wave, { strokeDashoffset: 0, duration: 1.5, ease: "power2.inOut" }, 0.45);
+      if (arch) tl.to(arch, { strokeDashoffset: 0, duration: 1.0, ease: "power2.inOut" }, 1.25);
+      tl.to(letters, { opacity: 1, y: 0, duration: 0.6, stagger: 0.055 }, 1.5);
+
+      /* --- scroll reveals --- */
+      gsap.utils.toArray("[data-reveal]").forEach(function (el) {
+        gsap.fromTo(el, { opacity: 0, y: 26 }, {
+          opacity: 1, y: 0, duration: 0.85, ease: "power3.out",
+          scrollTrigger: { trigger: el, start: "top 88%", once: true }
+        });
+      });
+
+      gsap.utils.toArray("[data-stagger]").forEach(function (group) {
+        gsap.fromTo(group.children, { opacity: 0, y: 30 }, {
+          opacity: 1, y: 0, duration: 0.8, ease: "power3.out", stagger: 0.075,
+          scrollTrigger: { trigger: group, start: "top 86%", once: true }
+        });
+      });
+
+      /* --- process steps draw in one by one --- */
+      var steps = gsap.utils.toArray(".process li");
+      if (steps.length) {
+        gsap.fromTo(steps, { opacity: 0, y: 18 }, {
+          opacity: 1, y: 0, duration: 0.6, stagger: 0.14, ease: "power2.out",
+          scrollTrigger: { trigger: ".process", start: "top 86%", once: true }
+        });
+      }
+
+      /* --- subtle parallax on the hero plate --- */
+      gsap.to(".hero-visual", {
+        yPercent: 8, ease: "none",
+        scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: 0.6 }
+      });
+
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(function () { ScrollTrigger.refresh(); });
+      }
+      window.addEventListener("load", function () { ScrollTrigger.refresh(); });
+      root.classList.add("motion-on");
+    } catch (err) {
+      bailOut();
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", startMotion);
+  } else {
+    startMotion();
+  }
+})();
+</script>
+</body>
+</html>
